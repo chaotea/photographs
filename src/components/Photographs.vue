@@ -6,9 +6,10 @@
         <span class="photographer">{{ photographer }}</span>
         <span class="date">{{ date }}</span>
         <span class="context">{{ context }}</span>
+        <button v-on:click="next">NEXT</button>
       </div>
     </div>
-    <div class="right" v-bind:style="imageStyle"></div>
+    <div class="right" v-bind:style="{ 'background-image': 'url(' + url + ')' }"></div>
   </div>
 </template>
 
@@ -37,18 +38,12 @@ export default {
       return this.photos[this.index]["date"]
     },
     url() {
-      return this.photos[this.index]["url"]
-    },
-    imageStyle() {
-      let url = "url('../assets/" + this.url + "')"
-      return {
-        backgroundImage: url
-      }
+      return require(`../assets/${this.photos[this.index]["url"]}`)
     }
   },
   methods: {
     next() {
-      this.index = this.index + 1
+      this.index = (this.index < 14) ? (this.index + 1) : this.index
     }
   }
 }
@@ -65,22 +60,46 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 20%;
+  width: 30%;
   background-color: #050505;
 }
 
 .info {
+  width: 80%;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 400;
+  font-style: normal;
+  text-align: center;
 }
 
 .info span {
-  color: #ffffff;
-  font-weight: 400;
+  margin: 0.5rem;
+}
+
+.info .name {
+  display: block;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.info .photographer {
+  display: block;
+}
+
+.info .date {
+  display: block;
+   font-style: italic;
+}
+
+.info .context {
+  display: block;
+  margin: 2rem;
 }
 
 .right {
-  width: 80%;
-  /* background-image: url("../assets/bloody_saturday.jpg"); */
-  /* background-color: #050505; */
+  width: 70%;
+  background-color: #050505;
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
