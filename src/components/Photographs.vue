@@ -43,9 +43,11 @@ export default {
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
+  align-items: center;
   height: 100vh;
   width: 100%;
   color: #ffffff;
+  font-family: "Times New Roman" Times, serif;
   font-size: 16px;
   font-weight: 400;
   font-style: normal;
