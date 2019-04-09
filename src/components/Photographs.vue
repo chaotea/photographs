@@ -1,15 +1,16 @@
 <template>
   <div class="photographs">
     <div class="left">
-      <div class="info">
-        <span class="name">{{ name }}</span>
-        <span class="photographer">{{ photographer }}</span>
-        <span class="date">{{ date }}</span>
-        <span class="context">{{ context }}</span>
-        <button v-on:click="next">NEXT</button>
+      <div class="info" v-for="photo in photos" v-bind:key="photo.name">
+        <span class="name">{{ photo.name }}</span>
+        <span class="photographer">{{ photo.photographer }}</span>
+        <span class="date">{{ photo.date }}</span>
+        <span class="context">{{ photo.context }}</span>
       </div>
     </div>
-    <div class="right" v-bind:style="{ 'background-image': 'url(' + url + ')' }"></div>
+    <div class="right">
+      <img class="photo" v-for="photo in photos" v-bind:key="photo.name" v-bind:src="toUrl(photo.url)">
+    </div>
   </div>
 </template>
 
@@ -19,31 +20,9 @@ export default {
   props: {
     photos: Array
   },
-  data() {
-    return {
-      index: 0,
-    }
-  },
-  computed: {
-    name() {
-      return this.photos[this.index]["name"]
-    },
-    photographer() {
-      return this.photos[this.index]["photographer"]
-    },
-    context() {
-      return this.photos[this.index]["context"]
-    },
-    date() {
-      return this.photos[this.index]["date"]
-    },
-    url() {
-      return require(`../assets/${this.photos[this.index]["url"]}`)
-    }
-  },
   methods: {
-    next() {
-      this.index = (this.index < 14) ? (this.index + 1) : this.index
+    toUrl(url) {
+      return require(`../assets/${url}`)
     }
   }
 }
@@ -53,19 +32,19 @@ export default {
 .photographs {
   display: flex;
   align-items: stretch;
-  height: 100%;
-}
-
-.left {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 30%;
   background-color: #050505;
 }
 
+.left {
+  width: 30%;
+}
+
 .info {
-  width: 80%;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  height: 100vh;
+  width: 100%;
   color: #ffffff;
   font-size: 16px;
   font-weight: 400;
@@ -99,9 +78,12 @@ export default {
 
 .right {
   width: 70%;
-  background-color: #050505;
-  background-position: center;
-  background-size: contain;
-  background-repeat: no-repeat;
+}
+
+.photo {
+  display: block;
+  height: 100vh;
+  max-width: 100%;
+  margin: auto;
 }
 </style>
